@@ -14,16 +14,41 @@ public class EchoServer {
 		server.start();
 	}
 
+	private static class ClientThread extends Thread {
+		Socket clientSocket;
+		
+		public ClientThread(Socket clientSocket) {
+			this.clientSocket = clientSocket;
+		}
+		
+		public void run() {
+			try {
+				InputStream inputStream = clientSocket.getInputStream();
+				OutputStream outputStream = clientSocket.getOutputStream();
+				
+				int nextByte;
+				while ((nextByte = inputStream.read()) != -1) {
+					outputStream.write(nextByte);
+				}
+				
+				clientSocket.close();
+				System.out.println("Client disconnected");
+				
+			} catch (IOException e) {
+				System.out.println("Error");
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 	private void start() throws IOException, InterruptedException {
 		ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
 		while (true) {
 			Socket socket = serverSocket.accept();
-			InputStream inputStream = socket.getInputStream();
-			OutputStream outputStream = socket.getOutputStream();
-			int b;
-			while ((b = inputStream.read()) != -1) {
-				outputStream.write(b);
-			}
+			System.out.println("Client connected");
+			ClientThread currentThread = new ClientThread(socket);
+			currentThread.run();
 		}
 	}
 }
