@@ -1,0 +1,3 @@
+This is a short text file.
+It should be processed quickly by the echoserver.
+-fin
