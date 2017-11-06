@@ -1,0 +1,21 @@
+--Lab 7 Writeup - Threading--
+
+It's clear that using threads increases the throughput of the program quite significantly,
+and scales better with larger data handling versus a non threading program.
+
+When running the .sh test script (located in /src), I supplied the argument 50 so that each test (small data, medium and binary)
+would create the maximum number of threads I allowed in my EchoServerPool.java file (50 threads). Note that my "large binary data" ended up
+being faster to execute since the file wasn't as large as I had thought. My mistake there. Still, the results are telling.
+
+
+--Using EchoServer.java, without pooling--
+Small data - 1s
+Medium data - 37s
+Binary data - 20s
+
+--Using EchoServerPool.java--
+Small data - 1s
+Medium data - 10s
+Binary data - 6s
+
+I'm sure that with larger data I/O, pooling is the more efficient approach.
