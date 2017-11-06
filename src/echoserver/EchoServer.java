@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServer {
-	public static final int PORT_NUMBER = 6013;
+	private static final int PORT_NUMBER = 6013;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		EchoServer server = new EchoServer();
@@ -42,7 +42,8 @@ public class EchoServer {
 		}
 	}
 	
-	private void start() throws IOException, InterruptedException {
+	void start() throws IOException, InterruptedException {
+		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
 		while (true) {
 			Socket socket = serverSocket.accept();
@@ -50,5 +51,6 @@ public class EchoServer {
 			ClientThread currentThread = new ClientThread(socket);
 			currentThread.run();
 		}
+		
 	}
 }
